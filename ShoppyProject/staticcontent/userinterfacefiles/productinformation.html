@@ -1,0 +1,53 @@
+<html>
+    <head></head>
+    <style></style>
+    <body>
+        <!-- https://mdbootstrap.com/docs/b4/jquery/ecommerce/design-blocks/product-lists/ -->
+        {% extends "userinterfacefiles/home.html" %} 
+        {% block body_block %}
+        <!-- <form method="POST" action="{% url 'orderproduct' %}"> -->
+            {%csrf_token%}
+            
+            <div class="row">
+                {%for item in items %}
+                
+                    <div class="col-lg-4">
+                            <a href="#!">
+                                <div class="mask"><img class="img-fluid w-60 h-50" src="{{item.imageUrl}}"> </div>
+                            </a>
+                        <div class="text-center ">
+                            <h5>{{item.itemname}}</h5>
+                            <hr>
+                            <h6 class="mb-3">${{item.price}}</h6>
+                            <!-- <label>select quantity</label> -->
+                            <!-- <select name="item_quantity" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                            </select> -->
+                            <a href="{% url 'orderproduct' %}?item_id={{item.id}}"><button class="btn btn-primary btn-sm mr-1 mb-2">Add
+                                to Cart</button></a>
+                            <!-- <input type="hidden" name="item_id" value="{{item.id}}"></input> -->
+                            <!-- <button type="submit" class="btn btn-primary btn-sm mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button> -->
+                            <!-- <button type="button" class="btn btn-light btn-sm mr-1 mb-2"><i class="fas fa-info-circle pr-2"></i>Details</button> -->
+                        </div>
+                    </div>
+                {%endfor%}
+            </div>
+        <!-- </form> -->
+        {%endblock%}
+    </body>
+</html>

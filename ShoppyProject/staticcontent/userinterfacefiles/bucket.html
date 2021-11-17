@@ -1,0 +1,81 @@
+<html>
+    <head></head>
+    <style></style>
+    <body>
+        <!-- https://mdbootstrap.com/docs/b4/jquery/ecommerce/design-blocks/product-lists/ -->
+        {% extends "userinterfacefiles/home.html" %} 
+        {% block body_block %}
+        <div class="row">
+        </div>
+            <div class="row">
+                
+                <div class="col col-lg-9">
+                    <div class="alert alert-primary" role="alert">
+                        <h2>All Your Items Added</h2>
+                    </div>    
+                    <hr>                
+                    {% for item in all_added_items %}
+
+                    <div class="row">
+                        <div class="col col-lg-6">
+                            {%if item.item.imageUrl%}
+                                <img src={{item.item.imageUrl}} width="200px" height="200px">
+                            {%endif%}
+                        </div>
+                        <div class="col col-lg-4">
+                            <a href="">{{item.item.itemname}}</a>
+                            <br>Item Price : {{item.item.price}}
+                            <br>Quantity&nbsp;&nbsp;  : {{item.quantity}}
+                            <br><br>
+                            <form method="POST" action="{%url 'update_quantity'%}">
+                            
+                            {%csrf_token%}
+                                <input type="hidden" name="item_id" value="{{item.id}}"/>
+                                <select class="" onchange="this.form.submit()" name="quantityselected" id="" >
+                                    <option>Change Quantity</option>
+                                    {% for i in '01234567891011121314151617181920'|make_list %}
+                                        <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                            <!-- https://www.w3schools.com/howto/howto_css_delete_modal.asp -->
+                            <a href="{% url 'do_not_need_this_item' %}?item_id={{item.id}}">Don't Need</a><br><br>
+                            <a href="">Save for later</a>   
+                        </div>
+                        <div class="col col-lg-2">
+                            Total Price: ${{item.get_total_item_price}}
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    {% endfor %}
+                    <!-- <span style="float: left;">Subtotal: ${{total_bucket_price}}</span> -->
+                    <br><br><br><br><br><br>
+                </div>
+                <div class="col col-lg-3">
+                    <div>
+                        <br><br>
+                        <table align="center">
+                            <tr>
+                                <td><h3>Subtotal </h3></td>
+                                <td><h3>:&nbsp;${{total_bucket_price}}</h3></td>
+                            </tr>
+                            <tr>
+                                <td><h3>Total Items</h3></td>
+                                <td><h3>:&nbsp;{{total_prodcuts_added}}</h3></td>
+                            </tr>
+                            <tr>
+                                <td><h3>Total Qty</h3></td>
+                                <td><h3>:&nbsp;{{total_bucket_quantity}}</h3></td>
+                            </tr>
+                        </table>
+                        <br><br>
+                        <center><a style ="border-radius: 0.0rem" class="btn btn-primary btn-lg " href="{% url 'proceedtocheckout'%}">Proceed To Checkout</a></center>
+                    </div>  
+                </div>
+            </div>
+            
+            {%endblock%}
+            
+    </body>
+</html>

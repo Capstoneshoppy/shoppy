@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+  function showBillingAddress(box) {
+
+      var billingAddress_checkbox = document.getElementById("billing_shipping_not_same");
+      
+          if(billingAddress_checkbox.checked){
+
+            document.getElementById(box).style.display = "block";
+            document.getElementById('billingAddress_fullname').required = true;
+            document.getElementById('billingAddress_email').required = true;
+            document.getElementById('billingAddress_address').required = true;
+            document.getElementById('billingAddress_city').required = true;
+            document.getElementById('billingAddress_state').required = true;
+            document.getElementById('billingAddress_zipcode').required = true;
+          } 
+          else{
+            
+            document.getElementById(box).style.display = "none";
+            document.getElementById('billingAddress_fullname').required = false;
+            document.getElementById('billingAddress_email').required = false;
+            document.getElementById('billingAddress_address').required = false;
+            document.getElementById('billingAddress_city').required = false;
+            document.getElementById('billingAddress_state').required = false;
+            document.getElementById('billingAddress_zipcode').required = false;           
+          }
+  }
+
+  function toggle() {
+
+        var oldAddress = document.getElementById("oldAddress");
+
+        var value = oldAddress.value
+        // https://code-boxx.com/disable-elements-in-html-div/
+        if (value == 0) {
+
+          document.getElementById('shippingAddress').style.display = 'block';
+          var allform = document.querySelectorAll("#shippingAddress input");
+          for (let el of allform) { el.disabled = false; }
+          document.getElementById('shippingAddress_fullname').required = true;
+          document.getElementById('shippingAddress_email').required = true;
+          document.getElementById('shippingAddress_address').required = true;
+          document.getElementById('shippingAddress_city').required = true;
+          document.getElementById('shippingAddress_state').required = true;
+          document.getElementById('shippingAddress_zipcode').required = true; 
+        }
+        else {
+
+          // document.getElementById('shippingAddress').style.display = 'none';
+          var allform = document.querySelectorAll("#shippingAddress input");
+          for (let el of allform) { el.disabled = true; }
+          document.getElementById('shippingAddress_fullname').required = false;
+          document.getElementById('shippingAddress_email').required = false;
+          document.getElementById('shippingAddress_address').required = false;
+          document.getElementById('shippingAddress_city').required = false;
+          document.getElementById('shippingAddress_state').required = false;
+          document.getElementById('shippingAddress_zipcode').required = false;      
+
+        }
+    }
+
+    function card_paypal_Check() {
+    if (document.getElementById('payment_card').checked) {
+        document.getElementById('card_paymentDetails').style.display = 'block';
+        document.getElementById('paypal_paymentDetails').style.display = 'none';
+        
+    }
+    if (document.getElementById('payment_paypal').checked) {
+        document.getElementById('card_paymentDetails').style.display = 'none';
+        // document.getElementById('card_paymentDetails').disabled= true;
+        document.getElementById('paypal_paymentDetails').style.display = 'block';
+        // document.getElementById('card_paymentDetails').disabled= true;
+        
+    }
+    // else document.getElementById('ifYes').style.display = 'none';
+
+}
+
+</script>
+
+<style>
+body {
+  font-family: Arial;
+  font-size: 17px;
+  padding: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+
+.container {
+  /* background-color: #f2f2f2; */
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+input[type=text],input[type=number],input[type=email] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+ .credit_Card_exp_month, .expyear{
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.icon-container {
+  margin-bottom: 20px;
+  padding: 7px 0;
+  font-size: 24px;
+}
+
+.btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  width: 100%;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+a {
+  color: #2196F3;
+}
+
+hr {
+  border: 1px solid lightgrey;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
+@media (max-width: 800px) {
+  .row {
+    flex-direction: column-reverse;
+  }
+  .col-25 {
+    margin-bottom: 20px;
+  }
+}
+</style>
+</head>
+<body>
+    {% extends "userinterfacefiles/home.html" %} 
+    {% block body_block %}
+<h2>Payment </h2>
+<br>
+<div class="row">
+  <div class="col-75">
+    <div class="container">
+      <form method="POST" action="{% url 'order_confirmation_page' %}">
+          {%csrf_token%}
+          
+        <div class="row">
+          <div class="col-25" id="paymentDetails">
+            <!-- <h3>Payment</h3> -->
+            <input type="radio"  checked="checked" value="card" name="payment" id="payment_card" onclick="javascript:card_paypal_Check();">
+              <label for="card">Card</label>
+              <input type="radio"   name="payment" value ="paypal" id="payment_paypal" onclick="javascript:card_paypal_Check();">
+              <label for="paypal">PayPal</label>
+              <br>
+            <div id="card_paymentDetails" style="display:block">
+            <label for="fname">Accepted Cards</label>
+            <div class="icon-container">
+              <i class="fa fa-cc-visa" style="color:navy;"></i>
+              <i class="fa fa-cc-amex" style="color:blue;"></i>
+              <i class="fa fa-cc-mastercard" style="color:red;"></i>
+              <i class="fa fa-cc-discover" style="color:orange;"></i>
+              
+            </div>
+            <label for="cname">Name on Card</label>
+            <input type="text" id="cname" name="cardname" required>
+            <label for="ccnum">Credit card number</label>
+            <input type="number" id="ccnum" name="cardnumber" required >
+            <label for="expmonth">Exp Month</label>
+            <!-- <input type="text" id="expmonth" name="expmonth" required > -->
+            <select class='credit_Card_exp_month' id="expmonth" name="expmonth" placeholder="Expiry Month">
+              <option name="" value="" >Select Expiry Month</option>
+              <option name="January" value="Jan">January</option>
+              <option name="February" value="Feb">February</option>
+              <option name="March" value="Mar">March</option>
+              <option name="April" value="Apr">April</option>
+              <option name="May" value="May">May</option>
+              <option name="June" value="Jun">June</option>
+              <option name="July" value="Jul">July</option>
+              <option name="August" value="Aug">August</option>
+              <option name="September" value="Sep">September</option>
+              <option name="October" value="Oct">October</option>
+              <option name="November" value="Nov">November</option>
+              <option name="December" value="Dec">December</option>
+            </select>
+            <div class="row">
+              <div class="col-50">
+                <label for="expyear">Exp Year</label>
+                <!-- <input type="text" id="expyear" name="expyear" required> -->
+                <select class='expyear' name='expyear' id='expyear'>
+                  <option value=''>Year</option>
+                  <option value='2021'>2021</option>
+                  <option value='2022'>2022</option>
+                  <option value='2023'>2023</option>
+                  <option value='2024'>2024</option>
+                  <option value='2025'>2025</option>
+                  <option value='2026'>2026</option>
+                  <option value='2027'>2027</option>
+                  <option value='2028'>2028</option>
+                  <option value='2029'>2029</option>
+                  <option value='2030'>2030</option>
+                  <!-- <option value='31'>2031</option>
+                  <option value='32'>2032</option>
+                  <option value='33'>2033</option>
+                  <option value='34'>2034</option>
+                  <option value='35'>2035</option>
+                  <option value='36'>2036</option> -->
+              </select> 
+              </div>
+              <div class="col-50">
+                <label for="cvv">CVV</label>
+                <input type="number" id="cvv" name="cvv" required>
+              </div>
+            </div>
+            <input type="submit" value="Place Order" class="btn">
+          </div>
+          </div>
+          <div class="col-50" id="paypal_paymentDetails" style="display:none">
+            <br><br><br><br><br><br><br><br><br>                          
+            <div id="paypal-button-container">
+            </div>
+        </div>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  <div class="col-25">
+    <div class="container">
+      <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>{{total_prodcuts_added}}</b></span></h4>
+      {% for item in all_added_items %}
+        <p><a href="#">{{item.item.itemname}}</a> <span class="price">${{item.get_total_item_price}}</span></p>      
+      {%endfor%}
+      <hr>
+      <p>Total <span class="price" style="color:black"><b>${{total_bucket_price}}</b></span></p>
+    </div>
+  </div>
+</div>
+<script src="https://www.paypal.com/sdk/js?client-id=AfgMeVPYGrHJjcoVQm_sdfhWQhPHU3Xfhw1tkwcgwoqfmDBGhJ31WJEwsAsuKgeL4_9oRB-ItK7oybSo&currency=USD"></script>
+
+    <script>
+      function generateCSRFToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = generateCSRFToken('csrftoken');
+        // Render the PayPal button into #paypal-button-container
+        var cartTotal = '{{total_bucket_price}}'
+        var cartId = "{{bucketId}}"
+
+        function completeOrder(){
+            var url = "{% url 'completePayment' %}"
+
+            fetch(url,{
+                method:'POST',
+                headers:{
+                    'Content-type':'application/json',
+                    'X-CSRFToken':csrftoken,
+                },
+                body:JSON.stringify({'cartId':cartId,'paymentType':'PayPal'})
+            })
+            
+            window.location.href = "{% url 'order_confirmation_page'%}?cartId="+cartId                         
+        }
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{total_bucket_price}}'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                  completeOrder()
+                    
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+</body>
+{%endblock%}
+</html>

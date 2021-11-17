@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+        <style>
+            .free-listing{
+            border-radius: 53px;
+            border-color: green;
+        }
+        #addresses{
+            margin-bottom: 30px;
+            margin-top: 25px;
+            margin-right: 30px;
+            margin-left: 25px;
+        }
+       
+        </style>
+
+    </head>
+<body>
+    {% extends "userinterfacefiles/home.html" %} 
+    {% block body_block %}
+    
+    <div class="container"><br>
+        <!-- <div class="row"><button type="button" class="btn btn-primary">Primary</button></div><br> -->
+        <div class="row">
+            <div class="col-md-12">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Address</button>
+                <!-- <div class="collapse" id="collapseExample"> -->
+                    <div id="collapseExample">
+                        <br>
+                        <button class="btn btn-link" type="button" data-toggle="modal" data-target="#addNewAddress" aria-expanded="false" aria-controls="modelExample">Add New Address</button>
+                    <!-- <div class="card card-body"> -->
+                        {%if deletemessage %}
+                        <br><br>
+                        <div>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert" >
+                            &nbsp;&nbsp;{{deletemessage}}
+                            <button type="button" style="width: 10%" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
+                        {%if addmessage %}
+                        <br><br>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            &nbsp;&nbsp;{{addmessage}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
+                        {%if editmessage %}
+                        <br><br>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            &nbsp;&nbsp;{{editmessage}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
+                        
+                    <div class=" card-body">
+                        <div class="row">
+                        {% for address in addresses %}
+                            <div class="col-md-5 border border-info free-listing" style="margin-top:5px">
+                                <table>
+                                    <tr>
+                                        <td>Full Name</td><td>:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{{address.fullName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td><td>:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{{address.email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Full Address</td><td>:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{{address.completeStreetAddress}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>City</td><td>:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{{address.city}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>State</td><td>:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{{address.state}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>zipcode</td><td>:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{{address.zipcode}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Country</td><td>:</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{{address.country}}</td>
+                                    </tr>
+                                    <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+                                    <tr>
+                                        <br>
+                                        
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button data-toggle="modal" data-target="#editAddress-{{address.id}}" type="button" class="btn btn-primary" data-toggle="modal" style="border-radius:47px;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td><a href="{% url 'deleteaddress' %}?addressId={{address.id}}"><button type="button" class="btn btn-secondary" style="border-radius:47px;">Delete</button></a></td>
+                                    </tr>
+                                    <tr><td></td></tr>
+                                    <tr><td></td></tr>
+                                </table>
+                                
+                            </div>
+                        
+                        {% endfor %}  
+                        
+                    </div>
+                </div>
+                <div>
+                    {% for address in addresses %}
+                    <div class="modal"  id="editAddress-{{address.id}}" role="dialog">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Editting Address</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form method="POST" action="{% url 'editaddress' %}?addressId={{address.id}}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                <input type="text" class="form-control" name="fullName" value = "{{address.fullName}}" >
+                                <small id="line1Help" class="form-text text-muted">We'll never share your address with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="email" value = "{{address.email}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="completeStreetAddress" value = "{{address.completeStreetAddress}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="city" value = "{{address.city}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="state" value = "{{address.state}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="zipcode" value = "{{address.zipcode}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="country" value = "USA" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="instructionsToFindAdd" value = "{{address.instructionsToFindAdd}}" >
+                                    <small id="line1Help" class="form-text text-muted">Instructions to Find the address</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {%endfor%}
+                </div>
+                <div>
+                      <div class="modal"  id="addNewAddress" role="dialog">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Adding New Address</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form method="POST" action="{% url 'addnewaddress' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                <input type="text" class="form-control" name="fullName" placeholder = "Enter Your full name" required>
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your address with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="email" placeholder = "enter your email address" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="completeStreetAddress" placeholder = "complete Street Address" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="city" placeholder = "city" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="state" placeholder = "state" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="zipcode" placeholder = "zipcode" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="country" placeholder = "country" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="instructionsToFindAdd" placeholder = "Optional!! Instructions To Find Address" >
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Add Address</button>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     
+</div>
+    {% endblock %}
+        
+
+    </div>
+</body>
+</html>

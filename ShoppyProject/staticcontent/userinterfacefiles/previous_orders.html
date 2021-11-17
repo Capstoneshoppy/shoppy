@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Previous Orders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+</style>
+</head>
+<body>
+    {% extends "userinterfacefiles/home.html" %} 
+    {% block body_block %}
+    <div class="">      
+          <div class="accordion" id="accordionExample">
+            {%for previous_order in previous_orders%}
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-{{previous_order.id}}" aria-expanded="false" aria-controls="collapse-{{previous_order.id}}">
+                    Order Id {{previous_order.id}} and Placed On {{previous_order.ordered_date}}
+                  </button>
+                </h5>
+              </div>
+              <div id="collapse-{{previous_order.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Order Id</th>
+                        <th scope="col">Ordered Date</th>
+                        <th scope="col">No.of Items Purchased</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Shipping Address</th>
+                        <th scope="col">Billing Address</th>
+                      </tr>
+                    </thead>
+                    <tbody>                     
+                      <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{previous_order.id}}</td>
+                        <td>{{previous_order.ordered_date}}</td>
+                        <td>{{previous_order.total_quantity_of_all_items}}</td>
+                        <td>${{previous_order.get_total_bucket_price}}</td>
+                        <td>{{previous_order.shippingAddress.completeStreetAddress}}<br>
+                          {{previous_order.shippingAddress.city}}<br>
+                          {{previous_order.shippingAddress.state}}</td>
+                        <td>{{previous_order.billingAddress.address}}<br>
+                          {{previous_order.billingAddress.city}}<br>
+                          {{previous_order.billingAddress.state}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  {% for item in previous_order.orderitemmodel_set.all %}
+
+                    <div class="row">
+                        <div class="col col-lg-5">
+                            {%if item.item.imageUrl%}
+                                <img src={{item.item.imageUrl}} width="200px" height="200px">
+                            {%endif%}
+                        </div>
+                        <div class="col col-lg-4">
+                            <a href="">{{item.item.itemname}}</a>
+                            <br>Item Price : {{item.item.price}}
+                            <br>Purchased Quantity&nbsp;&nbsp;  : {{item.quantity}}
+                            <br><br>
+                            <!-- <a href="{% url 'do_not_need_this_item' %}?item_id={{item.id}}">Buy Again</a><br><br> -->
+                        </div>
+                        <div class="col col-lg-2">
+                            Total Price: ${{item.get_total_item_price}}
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% empty %}
+              <h3>You don't have any previous orders </h3>
+            {%endfor%}
+          </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+{%endblock%}
+</html>
